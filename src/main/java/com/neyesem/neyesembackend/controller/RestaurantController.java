@@ -26,24 +26,25 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurant/{id}")
-    public ResponseEntity<Restaurant> getRestaurantById(@RequestParam Long id){
+    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id){
         return new ResponseEntity<>(restaurantService.getRestaurantById(id) , HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Restaurant> createBlog(@RequestBody Restaurant newBlog){
-        return new ResponseEntity<>(restaurantService.saveRestaurant(newBlog),HttpStatus.CREATED);
+    @PostMapping("/restaurant")
+    public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant newRestaurant){
+        System.out.println(newRestaurant);
+        return new ResponseEntity<>(restaurantService.saveRestaurant(newRestaurant),HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBlog(@PathVariable Long id){
+    @DeleteMapping("/restaurant/{id}")
+    public ResponseEntity<Void> deleteRestaurant(@PathVariable Long id){
         restaurantService.deleteRestaurantById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Restaurant> updateBlog(@PathVariable Long id, @RequestBody Restaurant updateBlog){
-        return new ResponseEntity<>(restaurantService.updateRestaurantById(id,updateBlog),HttpStatus.OK);
+    @PostMapping("/restaurant/{id}")
+    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long id, @RequestBody Restaurant updateRestaurant){
+        return new ResponseEntity<>(restaurantService.updateRestaurantById(id,updateRestaurant),HttpStatus.OK);
 
     }
 

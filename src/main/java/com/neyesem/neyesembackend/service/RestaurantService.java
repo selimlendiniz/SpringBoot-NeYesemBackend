@@ -4,6 +4,7 @@ import com.neyesem.neyesembackend.entity.Restaurant;
 import com.neyesem.neyesembackend.repository.IRestaurantRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,7 @@ public class RestaurantService {
     }
 
     public Restaurant saveRestaurant(Restaurant newRestaurant){
+        newRestaurant.setCreateDate(new Date(System.currentTimeMillis()));
 
         return restaurantRepository.save(newRestaurant);
     }

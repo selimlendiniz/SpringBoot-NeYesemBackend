@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IRestaurantRepository extends JpaRepository<Restaurant,Long> {
 
-    public Restaurant getRestaurantById(Long id);
+    Optional<Restaurant> getRestaurantById(Long id);
+
 
 }

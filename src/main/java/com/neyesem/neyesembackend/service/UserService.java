@@ -2,6 +2,7 @@ package com.neyesem.neyesembackend.service;
 
 import com.neyesem.neyesembackend.entity.User;
 import com.neyesem.neyesembackend.repository.IUserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,6 +21,7 @@ public class UserService {
     }
 
     public Optional<User> findByUsername(String username){
+
         return userRepository.findByUsername(username);
     }
 

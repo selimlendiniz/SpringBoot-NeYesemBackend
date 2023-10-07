@@ -6,11 +6,15 @@ import com.neyesem.neyesembackend.dto.AuthenticationResponse;
 import com.neyesem.neyesembackend.dto.RegisterRequest;
 import com.neyesem.neyesembackend.dto.Role;
 import com.neyesem.neyesembackend.entity.User;
-import com.neyesem.neyesembackend.repository.IUserRepository;
+import com.neyesem.neyesembackend.exception.EntityAlreadyExistsException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class AuthenticationService {
@@ -33,13 +37,14 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
 
-        if (!userService.findByEmail(request.email()).isEmpty()){
-            throw new RuntimeException("Bu email adresi ile zaten bir kullanici mevcut");
+        if (userService.findByEmail(request.email()).isPresent()){
+            throw new EntityAlreadyExistsException("User", "email", request.email());
         }
 
-        if (!userService.findByUsername(request.username()).isEmpty()){
-            throw new RuntimeException("Bu email adresi ile zaten bir kullanici mevcut");
+        if (userService.findByUsername(request.username()).isPresent()){
+            throw new EntityAlreadyExistsException("User", "username", request.username());
         }
+
 
 
 
@@ -62,6 +67,10 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+        userService.findByUsername(request.username()).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + request.username()));
+
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.username(),

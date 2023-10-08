@@ -2,6 +2,7 @@ package com.neyesem.neyesembackend.entity;
 
 
 import com.neyesem.neyesembackend.dto.Role;
+import com.neyesem.neyesembackend.dto.UserResponse;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,10 +20,10 @@ public class User implements UserDetails {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "username",unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -38,7 +39,18 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    public UserResponse entityToDto() {
 
+        return new UserResponse(
+
+                this.id,
+                this.username,
+                this.email,
+                this.firstName,
+                this.lastName
+
+        );
+    }
 
 
     @Override
@@ -102,6 +114,14 @@ public class User implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public User(Long id, String username, String email, String firstName, String lastName) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
     }

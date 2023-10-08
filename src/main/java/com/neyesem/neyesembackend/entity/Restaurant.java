@@ -1,6 +1,8 @@
 package com.neyesem.neyesembackend.entity;
 
 
+import com.neyesem.neyesembackend.dto.CommentResponse;
+import com.neyesem.neyesembackend.dto.RestaurantResponse;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -27,6 +29,18 @@ public class Restaurant {
     private String address;
 
 
+    public RestaurantResponse entityToDto(){
+
+        return new RestaurantResponse(
+
+                this.id,
+                this.name,
+                this.googleMapsLink,
+                this.address
+        );
+    }
+
+
     public Restaurant() {
     }
 
@@ -35,6 +49,13 @@ public class Restaurant {
         this.name = name;
         this.googleMapsLink = googleMapsLink;
         this.createDate = createDate;
+        this.address = address;
+    }
+
+    public Restaurant(Long id, String name, String googleMapsLink, String address) {
+        this.id = id;
+        this.name = name;
+        this.googleMapsLink = googleMapsLink;
         this.address = address;
     }
 

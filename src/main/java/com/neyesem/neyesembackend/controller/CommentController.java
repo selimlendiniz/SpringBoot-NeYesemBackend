@@ -28,7 +28,7 @@ public class CommentController {
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<Comment> postComment(@RequestBody CommentRequest commentRequest) {
+    public ResponseEntity<CommentResponse> postComment(@RequestBody CommentRequest commentRequest) {
 
         System.out.println(commentRequest);
 

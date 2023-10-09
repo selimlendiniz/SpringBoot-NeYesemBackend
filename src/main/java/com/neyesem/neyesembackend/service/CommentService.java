@@ -28,14 +28,14 @@ public class CommentService {
         this.userService = userService;
     }
 
-    public Comment postComment(CommentRequest commentRequest){
+    public CommentResponse postComment(CommentRequest commentRequest){
 
         Comment comment = new Comment(
                 commentRequest.comment(),
                 restaurantService.getRestaurantById(commentRequest.restaurantId()),
                 userService.findById(commentRequest.userId()));
 
-        return commentRepository.save(comment);
+        return commentRepository.save(comment).entityToDto();
     }
 
     public List<CommentResponse> getCommentByRestaurantId(Long id){

@@ -1,10 +1,8 @@
 package com.neyesem.neyesembackend.dto;
 
-import com.neyesem.neyesembackend.entity.User;
-
 import java.util.List;
 
-public record RestaurantDetailResponse(
+public record RestaurantProfileResponse(
         Long id,
 
         String name,
@@ -13,6 +11,7 @@ public record RestaurantDetailResponse(
 
         String address,
 
+        List<RestaurantCommentResponse> comments,
 
         List<RestaurantFoodResponse> foods
 

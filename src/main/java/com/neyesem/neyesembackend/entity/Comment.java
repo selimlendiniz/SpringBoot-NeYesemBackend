@@ -2,10 +2,9 @@ package com.neyesem.neyesembackend.entity;
 
 
 import com.neyesem.neyesembackend.dto.CommentResponse;
-import com.neyesem.neyesembackend.dto.UserssCommentResponse;
+import com.neyesem.neyesembackend.dto.RestaurantCommentResponse;
+import com.neyesem.neyesembackend.dto.UserCommentResponse;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "comments")
@@ -21,8 +20,8 @@ public class Comment {
     @JoinColumn(name = "restaurant_id",referencedColumnName = "id")
     private Restaurant restaurant;
 
-    @ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public CommentResponse entityToDto(){
@@ -30,19 +29,26 @@ public class Comment {
         return new CommentResponse(
                 this.id,
                 this.comment,
-                this.getRestaurant().entityToDto(),
-                this.getUser().entityToDto()
+                this.getRestaurant().entityToDto()
         );
     }
 
-    public UserssCommentResponse entityToUserssCommentResponse(){
+    public UserCommentResponse entityToUserCommentResponse(){
 
-        return new UserssCommentResponse(
+        return new UserCommentResponse(
                 this.id,
-                this.getRestaurant().getId(),
+                this.restaurant.getId(),
                 this.comment
         );
+    }
 
+    public RestaurantCommentResponse entityToRestaurantCommentResponse(){
+
+        return new RestaurantCommentResponse(
+                this.id,
+                this.user.getId(),
+                this.comment
+        );
     }
 
 

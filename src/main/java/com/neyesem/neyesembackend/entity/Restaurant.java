@@ -1,13 +1,11 @@
 package com.neyesem.neyesembackend.entity;
 
 
-import com.neyesem.neyesembackend.dto.RestaurantDetailResponse;
+import com.neyesem.neyesembackend.dto.RestaurantProfileResponse;
 import com.neyesem.neyesembackend.dto.RestaurantResponse;
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -30,9 +28,16 @@ public class Restaurant {
     @Column(name = "address")
     private String address;
 
-    @ManyToMany(targetEntity = Food.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "food_id",referencedColumnName = "id")
-    private List<Food> foods;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    @ManyToMany
+    @JoinTable(
+            name = "restaurants_foods",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "food_id"))
+    private Set<Food> foods = new HashSet<>();
 
 
     public RestaurantResponse entityToDto(){
@@ -46,12 +51,16 @@ public class Restaurant {
         );
     }
 
-    public RestaurantDetailResponse entityToRestaurantDetailResponse(){
-        return new RestaurantDetailResponse(
+    public RestaurantProfileResponse entityToRestaurantProfileResponse(){
+        return new RestaurantProfileResponse(
                 this.id,
                 this.name,
                 this.googleMapsLink,
                 this.address,
+                this.comments
+                        .stream()
+                        .map(Comment::entityToRestaurantCommentResponse)
+                        .collect(Collectors.toList()),
                 this.foods
                         .stream()
                         .map(Food::entityToRestaurantFoodResponse)
@@ -116,6 +125,22 @@ public class Restaurant {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Set<Food> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(Set<Food> foods) {
+        this.foods = foods;
     }
 
     @Override

@@ -1,12 +1,17 @@
 package com.neyesem.neyesembackend.service;
 
+import com.neyesem.neyesembackend.dto.UserProfileResponse;
+import com.neyesem.neyesembackend.dto.UserSearchResponse;
+import com.neyesem.neyesembackend.entity.Comment;
 import com.neyesem.neyesembackend.entity.User;
 import com.neyesem.neyesembackend.exception.EntityNotFoundException;
 import com.neyesem.neyesembackend.repository.IUserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -39,9 +44,32 @@ public class UserService {
         }
 
         return user.get();
+    }
 
 
+    public UserProfileResponse getUserProfile(Long id){
 
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User",id));
+
+        return new UserProfileResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getComments()
+                        .stream()
+                        .map(Comment::entityToUserCommentResponse)
+                        .collect(Collectors.toList())
+        );
+
+    }
+
+    public List<UserSearchResponse> searchUserByUsername(String username){
+
+        return userRepository.findUsersByUsernameContainsIgnoreCase(username)
+                .stream()
+                .map(User::entityToUserSearchResponse)
+                .collect(Collectors.toList());
     }
 
 

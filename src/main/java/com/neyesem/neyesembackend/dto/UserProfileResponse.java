@@ -11,7 +11,7 @@ public record UserProfileResponse(
 
         String lastName,
 
-        List<UserssCommentResponse> comments
+        List<UserCommentResponse> comments
 
 
 

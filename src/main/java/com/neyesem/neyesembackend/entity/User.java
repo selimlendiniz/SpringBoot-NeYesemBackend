@@ -4,6 +4,7 @@ package com.neyesem.neyesembackend.entity;
 import com.neyesem.neyesembackend.dto.Role;
 import com.neyesem.neyesembackend.dto.UserDetailResponse;
 import com.neyesem.neyesembackend.dto.UserProfileResponse;
+import com.neyesem.neyesembackend.dto.UserSearchResponse;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -40,16 +41,13 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    public UserDetailResponse entityToDto() {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
-        return new UserDetailResponse(
-
-                this.id,
-                this.username,
-                this.email,
-                this.firstName,
-                this.lastName
-
+    public UserSearchResponse entityToUserSearchResponse(){
+        return new UserSearchResponse(
+                this.getId(),
+                this.getUsername()
         );
     }
 
@@ -174,5 +172,14 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

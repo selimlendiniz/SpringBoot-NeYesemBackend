@@ -1,12 +1,14 @@
 package com.neyesem.neyesembackend.entity;
 
 
-import com.neyesem.neyesembackend.dto.CommentResponse;
+import com.neyesem.neyesembackend.dto.RestaurantDetailResponse;
 import com.neyesem.neyesembackend.dto.RestaurantResponse;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "restaurants")
@@ -28,6 +30,10 @@ public class Restaurant {
     @Column(name = "address")
     private String address;
 
+    @ManyToMany(targetEntity = Food.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "food_id",referencedColumnName = "id")
+    private List<Food> foods;
+
 
     public RestaurantResponse entityToDto(){
 
@@ -37,6 +43,19 @@ public class Restaurant {
                 this.name,
                 this.googleMapsLink,
                 this.address
+        );
+    }
+
+    public RestaurantDetailResponse entityToRestaurantDetailResponse(){
+        return new RestaurantDetailResponse(
+                this.id,
+                this.name,
+                this.googleMapsLink,
+                this.address,
+                this.foods
+                        .stream()
+                        .map(Food::entityToRestaurantFoodResponse)
+                        .collect(Collectors.toList())
         );
     }
 

@@ -1,5 +1,6 @@
 package com.neyesem.neyesembackend.service;
 
+import com.neyesem.neyesembackend.dto.RestaurantDetailResponse;
 import com.neyesem.neyesembackend.entity.Restaurant;
 import com.neyesem.neyesembackend.exception.CustomException;
 import com.neyesem.neyesembackend.exception.EntityAlreadyExistsException;
@@ -36,8 +37,9 @@ public class RestaurantService {
 
     }
 
-    public Restaurant getRestaurantById(Long id) {
 
+
+    public Restaurant findRestaurantById(Long id) {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
 
         if (!restaurant.isPresent()){
@@ -45,7 +47,6 @@ public class RestaurantService {
         }
 
         return restaurant.get();
-
     }
 
     public Restaurant saveRestaurant(Restaurant newRestaurant){
@@ -56,7 +57,7 @@ public class RestaurantService {
 
     public Restaurant updateRestaurantById(Long id, Restaurant updateRestaurant) {
 
-        Restaurant oldRestaurant = getRestaurantById(id);
+        Restaurant oldRestaurant = findRestaurantById(id);
         oldRestaurant.setAddress(updateRestaurant.getAddress());
         oldRestaurant.setGoogleMapsLink(updateRestaurant.getGoogleMapsLink());
         return restaurantRepository.save(oldRestaurant);

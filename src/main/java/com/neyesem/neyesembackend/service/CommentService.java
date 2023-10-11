@@ -30,7 +30,7 @@ public class CommentService {
 
         Comment comment = new Comment(
                 commentRequest.comment(),
-                restaurantService.getRestaurantById(commentRequest.restaurantId()),
+                restaurantService.findRestaurantById(commentRequest.restaurantId()),
                 userService.findById(commentRequest.userId()));
 
         return commentRepository.save(comment).entityToDto();

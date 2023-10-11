@@ -1,5 +1,6 @@
 package com.neyesem.neyesembackend.controller;
 
+import com.neyesem.neyesembackend.dto.RestaurantDetailResponse;
 import com.neyesem.neyesembackend.entity.Restaurant;
 import com.neyesem.neyesembackend.service.RestaurantService;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class RestaurantController {
 
     @GetMapping("/restaurant/{id}")
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id){
-        return new ResponseEntity<>(restaurantService.getRestaurantById(id) , HttpStatus.OK);
+        return new ResponseEntity<>(restaurantService.findRestaurantById(id) , HttpStatus.OK);
     }
 
     @PostMapping("/restaurant")

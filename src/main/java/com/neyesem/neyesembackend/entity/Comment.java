@@ -2,6 +2,7 @@ package com.neyesem.neyesembackend.entity;
 
 
 import com.neyesem.neyesembackend.dto.CommentResponse;
+import com.neyesem.neyesembackend.dto.UserssCommentResponse;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -32,6 +33,16 @@ public class Comment {
                 this.getRestaurant().entityToDto(),
                 this.getUser().entityToDto()
         );
+    }
+
+    public UserssCommentResponse entityToUserssCommentResponse(){
+
+        return new UserssCommentResponse(
+                this.id,
+                this.getRestaurant().getId(),
+                this.comment
+        );
+
     }
 
 

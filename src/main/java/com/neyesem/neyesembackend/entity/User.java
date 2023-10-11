@@ -2,7 +2,8 @@ package com.neyesem.neyesembackend.entity;
 
 
 import com.neyesem.neyesembackend.dto.Role;
-import com.neyesem.neyesembackend.dto.UserResponse;
+import com.neyesem.neyesembackend.dto.UserDetailResponse;
+import com.neyesem.neyesembackend.dto.UserProfileResponse;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,9 +40,9 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    public UserResponse entityToDto() {
+    public UserDetailResponse entityToDto() {
 
-        return new UserResponse(
+        return new UserDetailResponse(
 
                 this.id,
                 this.username,
@@ -51,6 +52,7 @@ public class User implements UserDetails {
 
         );
     }
+
 
 
     @Override

@@ -13,4 +13,6 @@ public interface ICommentRepository extends JpaRepository<Comment,Long> {
 
     List<Comment> getCommentByRestaurantId(Long Restaurant);
 
+    List<Comment> getCommentsByUserId(Long id);
+
 }

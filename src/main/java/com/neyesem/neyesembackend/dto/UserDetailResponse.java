@@ -1,6 +1,6 @@
 package com.neyesem.neyesembackend.dto;
 
-public record UserResponse(
+public record UserDetailResponse(
         Long id,
         String username,
         String email,

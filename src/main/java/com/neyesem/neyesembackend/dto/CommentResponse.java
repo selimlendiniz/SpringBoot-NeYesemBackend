@@ -4,7 +4,7 @@ public record CommentResponse(
         Long id,
         String comment,
         RestaurantResponse restaurant,
-        UserResponse user
+        UserDetailResponse user
 
 
 ) {

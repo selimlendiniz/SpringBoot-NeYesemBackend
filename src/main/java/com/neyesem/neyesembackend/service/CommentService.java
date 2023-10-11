@@ -4,8 +4,6 @@ import com.neyesem.neyesembackend.dto.CommentRequest;
 import com.neyesem.neyesembackend.dto.CommentResponse;
 import com.neyesem.neyesembackend.entity.Comment;
 import com.neyesem.neyesembackend.repository.ICommentRepository;
-import com.neyesem.neyesembackend.util.RestaurantMapper;
-import com.neyesem.neyesembackend.util.UserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +26,7 @@ public class CommentService {
         this.userService = userService;
     }
 
-    public CommentResponse postComment(CommentRequest commentRequest){
+    public CommentResponse postComment(CommentRequest commentRequest) {
 
         Comment comment = new Comment(
                 commentRequest.comment(),
@@ -38,7 +36,7 @@ public class CommentService {
         return commentRepository.save(comment).entityToDto();
     }
 
-    public List<CommentResponse> getCommentByRestaurantId(Long id){
+    public List<CommentResponse> getCommentByRestaurantId(Long id) {
 
         List<CommentResponse> comments = commentRepository
                 .getCommentByRestaurantId(id)

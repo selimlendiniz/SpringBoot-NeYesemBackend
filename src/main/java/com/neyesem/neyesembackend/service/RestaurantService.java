@@ -1,6 +1,7 @@
 package com.neyesem.neyesembackend.service;
 
 import com.neyesem.neyesembackend.dto.RestaurantProfileResponse;
+import com.neyesem.neyesembackend.dto.RestaurantSearchResponse;
 import com.neyesem.neyesembackend.dto.UserProfileResponse;
 import com.neyesem.neyesembackend.entity.Comment;
 import com.neyesem.neyesembackend.entity.Food;
@@ -72,6 +73,13 @@ public class RestaurantService {
 
         return restaurant.entityToRestaurantProfileResponse();
 
+    }
+
+    public List<RestaurantSearchResponse>  searchRestaurants(String name){
+        return restaurantRepository.getRestaurantsByNameContainingIgnoreCase(name)
+                .stream()
+                .map(Restaurant::entityToRestaurantSearchResponse)
+                .collect(Collectors.toList());
     }
 
 

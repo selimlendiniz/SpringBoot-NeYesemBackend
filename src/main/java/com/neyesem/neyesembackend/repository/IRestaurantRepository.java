@@ -12,5 +12,7 @@ public interface IRestaurantRepository extends JpaRepository<Restaurant,Long> {
 
     Optional<Restaurant> getRestaurantById(Long id);
 
+    List<Restaurant> getRestaurantsByNameContainingIgnoreCase(String name);
+
 
 }

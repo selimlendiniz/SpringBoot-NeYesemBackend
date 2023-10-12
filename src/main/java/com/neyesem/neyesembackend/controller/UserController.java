@@ -20,6 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    // User Profile
     @GetMapping("/user/{id}")
     public ResponseEntity<UserProfileResponse> getUserProfile(@PathVariable Long id){
 
@@ -27,6 +28,8 @@ public class UserController {
 
     }
 
+
+    // Search User
     @GetMapping("/users")
     public ResponseEntity<List<UserSearchResponse>> searchUsers(@RequestParam String username){
 

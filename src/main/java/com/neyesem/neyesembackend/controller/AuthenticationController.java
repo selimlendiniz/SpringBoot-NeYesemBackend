@@ -4,6 +4,7 @@ import com.neyesem.neyesembackend.dto.AuthenticationRequest;
 import com.neyesem.neyesembackend.dto.AuthenticationResponse;
 import com.neyesem.neyesembackend.dto.RegisterRequest;
 import com.neyesem.neyesembackend.service.AuthenticationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+            @RequestBody @Valid RegisterRequest request
     ) {
 
         return ResponseEntity.ok(authenticationService.register(request));
@@ -32,7 +33,7 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
+            @RequestBody @Valid AuthenticationRequest request
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }

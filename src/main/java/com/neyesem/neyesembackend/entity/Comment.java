@@ -1,6 +1,7 @@
 package com.neyesem.neyesembackend.entity;
 
 
+import com.neyesem.neyesembackend.dto.CommentRequest;
 import com.neyesem.neyesembackend.dto.CommentResponse;
 import com.neyesem.neyesembackend.dto.RestaurantCommentResponse;
 import com.neyesem.neyesembackend.dto.UserCommentResponse;

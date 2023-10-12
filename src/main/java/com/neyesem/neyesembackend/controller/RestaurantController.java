@@ -23,6 +23,7 @@ public class RestaurantController {
 
     @GetMapping("/restaurants")
     public ResponseEntity<List<Restaurant>> getRestaurants(){
+        System.out.println("selim");
         return new ResponseEntity<>(restaurantService.getAllRestaurants(), HttpStatus.OK);
     }
 

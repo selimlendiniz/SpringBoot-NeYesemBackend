@@ -2,11 +2,9 @@ package com.neyesem.neyesembackend.controller;
 
 import com.neyesem.neyesembackend.dto.CommentRequest;
 import com.neyesem.neyesembackend.dto.CommentResponse;
-import com.neyesem.neyesembackend.entity.Comment;
 import com.neyesem.neyesembackend.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,10 +19,10 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping("/comments/restaurant/{id}")
-    public ResponseEntity<List<CommentResponse>> getCommentById(@PathVariable Long id) {
+    @GetMapping("/comments")
+    public ResponseEntity<List<CommentResponse>> getCommentById(@RequestParam Long restaurantId) {
 
-        return new ResponseEntity<>(commentService.getCommentByRestaurantId(id),HttpStatus.OK);
+        return new ResponseEntity<>(commentService.getCommentByRestaurantId(restaurantId), HttpStatus.OK);
     }
 
     @PostMapping("/comment")
@@ -32,7 +30,7 @@ public class CommentController {
 
         System.out.println(commentRequest);
 
-        return new ResponseEntity<>( commentService.postComment(commentRequest), HttpStatus.OK);
+        return new ResponseEntity<>(commentService.postComment(commentRequest), HttpStatus.OK);
     }
 
 

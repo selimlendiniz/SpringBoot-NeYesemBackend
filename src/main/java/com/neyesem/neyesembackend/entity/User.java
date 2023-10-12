@@ -2,10 +2,10 @@ package com.neyesem.neyesembackend.entity;
 
 
 import com.neyesem.neyesembackend.dto.Role;
-import com.neyesem.neyesembackend.dto.UserDetailResponse;
-import com.neyesem.neyesembackend.dto.UserProfileResponse;
 import com.neyesem.neyesembackend.dto.UserSearchResponse;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,13 +44,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    public UserSearchResponse entityToUserSearchResponse(){
+    public UserSearchResponse entityToUserSearchResponse() {
         return new UserSearchResponse(
                 this.getId(),
                 this.getUsername()
         );
     }
-
 
 
     @Override

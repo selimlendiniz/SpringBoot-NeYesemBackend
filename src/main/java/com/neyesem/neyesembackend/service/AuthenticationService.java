@@ -38,11 +38,11 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
 
         if (userService.findByEmail(request.email()).isPresent()){
-            throw new EntityAlreadyExistsException("User", "email", request.email());
+            throw new EntityAlreadyExistsException("user already exists with email: " + request.email());
         }
 
         if (userService.findByUsername(request.username()).isPresent()){
-            throw new EntityAlreadyExistsException("User", "username", request.username());
+            throw new EntityAlreadyExistsException("user already exists with username: " + request.username());
         }
 
 
@@ -53,8 +53,8 @@ public class AuthenticationService {
                 request.email(),
                 passwordEncoder.encode(request.password()),
                 Role.USER,
-                request.firstname(),
-                request.lastname()
+                request.firstName(),
+                request.lastName()
 
         );
 

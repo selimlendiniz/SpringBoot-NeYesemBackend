@@ -3,6 +3,7 @@ package com.neyesem.neyesembackend.entity;
 
 import com.neyesem.neyesembackend.dto.RestaurantProfileResponse;
 import com.neyesem.neyesembackend.dto.RestaurantResponse;
+import com.neyesem.neyesembackend.dto.RestaurantSearchResponse;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -48,6 +49,13 @@ public class Restaurant {
                 this.name,
                 this.googleMapsLink,
                 this.address
+        );
+    }
+
+    public RestaurantSearchResponse entityToRestaurantSearchResponse(){
+        return new RestaurantSearchResponse(
+                this.id,
+                this.name
         );
     }
 

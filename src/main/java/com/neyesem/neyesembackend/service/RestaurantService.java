@@ -1,11 +1,8 @@
 package com.neyesem.neyesembackend.service;
 
 import com.neyesem.neyesembackend.dto.RestaurantProfileResponse;
-import com.neyesem.neyesembackend.dto.UserProfileResponse;
-import com.neyesem.neyesembackend.entity.Comment;
-import com.neyesem.neyesembackend.entity.Food;
+import com.neyesem.neyesembackend.dto.RestaurantSearchResponse;
 import com.neyesem.neyesembackend.entity.Restaurant;
-import com.neyesem.neyesembackend.entity.User;
 import com.neyesem.neyesembackend.exception.EntityNotFoundException;
 import com.neyesem.neyesembackend.repository.IRestaurantRepository;
 import org.springframework.stereotype.Service;
@@ -66,12 +63,19 @@ public class RestaurantService {
 
     }
 
-    public RestaurantProfileResponse getUserProfile(Long id){
+    public RestaurantProfileResponse getRestaurantProfile(Long id){
 
         Restaurant restaurant = restaurantRepository.getRestaurantById(id).orElseThrow(() -> new EntityNotFoundException("User",id));
 
         return restaurant.entityToRestaurantProfileResponse();
 
+    }
+
+    public List<RestaurantSearchResponse>  searchRestaurants(String name){
+        return restaurantRepository.getRestaurantsByNameContainingIgnoreCase(name)
+                .stream()
+                .map(Restaurant::entityToRestaurantSearchResponse)
+                .collect(Collectors.toList());
     }
 
 

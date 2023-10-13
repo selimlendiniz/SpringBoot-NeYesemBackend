@@ -31,7 +31,7 @@ public class CommentService {
         Comment comment = new Comment(
                 commentRequest.comment(),
                 restaurantService.findRestaurantById(commentRequest.restaurantId()),
-                userService.findById(commentRequest.userId()));
+                userService.findUserById(commentRequest.userId()));
 
         return commentRepository.save(comment).entityToDto();
     }

@@ -4,9 +4,8 @@ import com.neyesem.neyesembackend.dto.UserProfileResponse;
 import com.neyesem.neyesembackend.dto.UserSearchResponse;
 import com.neyesem.neyesembackend.entity.Comment;
 import com.neyesem.neyesembackend.entity.User;
-import com.neyesem.neyesembackend.exception.EntityNotFoundException;
+import com.neyesem.neyesembackend.exception.UserNotFoundException;
 import com.neyesem.neyesembackend.repository.IUserRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,34 +21,29 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void save(User newUser){
-        userRepository.save(newUser);
+    public User save(User newUser) {
+        return userRepository.save(newUser);
     }
 
-    public Optional<User> findByUsername(String username){
+    public Optional<User> findByUsername(String username) {
 
         return userRepository.findByUsername(username);
     }
 
-    public Optional<User> findByEmail(String email){
-        return  userRepository.findByEmail(email);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("user not found with email: " + email));
     }
 
-    public User findById(Long id){
+    public User findUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("user not found with id: " + id));
 
-        Optional<User> user = userRepository.findById(id);
-
-        if (user.isEmpty()) {
-            throw new EntityNotFoundException("User",id);
-        }
-
-        return user.get();
+        return user;
     }
 
 
-    public UserProfileResponse getUserProfile(Long id){
+    public UserProfileResponse getUserProfile(Long id) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User",id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User" + id));
 
         return new UserProfileResponse(
                 user.getId(),
@@ -64,7 +58,7 @@ public class UserService {
 
     }
 
-    public List<UserSearchResponse> searchUserByUsername(String username){
+    public List<UserSearchResponse> searchUserByUsername(String username) {
 
         return userRepository.findUsersByUsernameContainsIgnoreCase(username)
                 .stream()

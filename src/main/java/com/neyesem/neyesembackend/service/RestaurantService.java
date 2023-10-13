@@ -3,7 +3,7 @@ package com.neyesem.neyesembackend.service;
 import com.neyesem.neyesembackend.dto.RestaurantProfileResponse;
 import com.neyesem.neyesembackend.dto.RestaurantSearchResponse;
 import com.neyesem.neyesembackend.entity.Restaurant;
-import com.neyesem.neyesembackend.exception.EntityNotFoundException;
+import com.neyesem.neyesembackend.exception.RestaurantNotFoundException;
 import com.neyesem.neyesembackend.repository.IRestaurantRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,33 +22,32 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public List<Restaurant> getAllRestaurants(){
+    public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
     }
 
-    public void deleteRestaurantById(Long id){
+    public void deleteRestaurantById(Long id) {
 
         if (restaurantRepository.existsById(id)) {
             restaurantRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Restaurant",id);
+            throw new RestaurantNotFoundException("Restaurant" + id);
         }
 
     }
-
 
 
     public Restaurant findRestaurantById(Long id) {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
 
-        if (!restaurant.isPresent()){
-            throw new EntityNotFoundException("Restaurant",id);
+        if (!restaurant.isPresent()) {
+            throw new RestaurantNotFoundException("Restaurant" + id);
         }
 
         return restaurant.get();
     }
 
-    public Restaurant saveRestaurant(Restaurant newRestaurant){
+    public Restaurant saveRestaurant(Restaurant newRestaurant) {
         newRestaurant.setCreateDate(new Date(System.currentTimeMillis()));
         return restaurantRepository.save(newRestaurant);
     }
@@ -63,15 +62,16 @@ public class RestaurantService {
 
     }
 
-    public RestaurantProfileResponse getRestaurantProfile(Long id){
+    public RestaurantProfileResponse getRestaurantProfile(Long id) {
 
-        Restaurant restaurant = restaurantRepository.getRestaurantById(id).orElseThrow(() -> new EntityNotFoundException("User",id));
+        Restaurant restaurant = restaurantRepository.getRestaurantById(id)
+                .orElseThrow(() -> new RestaurantNotFoundException("Restaurant not found with id: " + id));
 
         return restaurant.entityToRestaurantProfileResponse();
 
     }
 
-    public List<RestaurantSearchResponse>  searchRestaurants(String name){
+    public List<RestaurantSearchResponse> searchRestaurants(String name) {
         return restaurantRepository.getRestaurantsByNameContainingIgnoreCase(name)
                 .stream()
                 .map(Restaurant::entityToRestaurantSearchResponse)

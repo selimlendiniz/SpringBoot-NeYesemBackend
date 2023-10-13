@@ -51,6 +51,10 @@ public class User implements UserDetails {
         );
     }
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -123,6 +127,14 @@ public class User implements UserDetails {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
 
     public Long getId() {

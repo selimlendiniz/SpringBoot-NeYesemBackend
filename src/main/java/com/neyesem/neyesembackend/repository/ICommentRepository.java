@@ -9,10 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ICommentRepository extends JpaRepository<Comment,Long> {
-    List<Comment> getCommentByRestaurant(Restaurant restaurant);
-
     List<Comment> getCommentByRestaurantId(Long Restaurant);
-
-    List<Comment> getCommentsByUserId(Long id);
-
 }

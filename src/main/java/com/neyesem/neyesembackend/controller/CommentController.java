@@ -3,6 +3,7 @@ package com.neyesem.neyesembackend.controller;
 import com.neyesem.neyesembackend.dto.CommentRequest;
 import com.neyesem.neyesembackend.dto.CommentResponse;
 import com.neyesem.neyesembackend.service.CommentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class CommentController {
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<CommentResponse> postComment(@RequestBody CommentRequest commentRequest) {
+    public ResponseEntity<CommentResponse> postComment(@RequestBody @Valid CommentRequest commentRequest) {
 
         System.out.println(commentRequest);
 

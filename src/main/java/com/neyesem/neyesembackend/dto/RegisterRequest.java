@@ -13,11 +13,10 @@ public record RegisterRequest(
         @Email(message = "Please enter a valid email")
         String email,
 
+        @NotBlank(message = "Password cannot be blank")
         String password,
 
-
         String firstName,
-
 
         String lastName
 

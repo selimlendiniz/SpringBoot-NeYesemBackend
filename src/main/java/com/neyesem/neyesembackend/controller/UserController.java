@@ -3,6 +3,7 @@ package com.neyesem.neyesembackend.controller;
 import com.neyesem.neyesembackend.dto.UserProfileResponse;
 import com.neyesem.neyesembackend.dto.UserSearchResponse;
 import com.neyesem.neyesembackend.service.UserService;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

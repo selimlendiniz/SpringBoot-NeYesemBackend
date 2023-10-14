@@ -3,6 +3,8 @@ package com.neyesem.neyesembackend.controller;
 import com.neyesem.neyesembackend.dto.AuthenticationRequest;
 import com.neyesem.neyesembackend.dto.AuthenticationResponse;
 import com.neyesem.neyesembackend.dto.RegisterRequest;
+import com.neyesem.neyesembackend.exception.RefreshTokenMissing;
+import com.neyesem.neyesembackend.exception.TokenException;
 import com.neyesem.neyesembackend.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.security.auth.RefreshFailedException;
 import java.io.IOException;
 
 @RestController
@@ -46,7 +49,8 @@ public class AuthenticationController {
     public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
-    ) throws IOException {
+    ) throws IOException, RefreshTokenMissing, RefreshFailedException, TokenException {
+
         authenticationService.refreshToken(request, response);
     }
 

@@ -5,20 +5,19 @@ import org.springframework.http.HttpStatus;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ApiException {
 
     private Date timestamp;
     private String error;
     private String message;
-    private String path;
-    HashMap<String,Object> payload;
+    Map<String,Object> payload;
 
-    public ApiException(Date timestamp, String error, String message, String path, HashMap<String, Object> payload) {
+    public ApiException(Date timestamp, String error, String message, HashMap<String, Object> payload) {
         this.timestamp = timestamp;
         this.error = error;
         this.message = message;
-        this.path = path;
         this.payload = payload;
     }
 
@@ -52,19 +51,11 @@ public class ApiException {
         this.message = message;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public HashMap<String, Object> getPayload() {
+    public Map<String, Object> getPayload() {
         return payload;
     }
 
-    public void setPayload(HashMap<String, Object> payload) {
+    public void setPayload(Map<String, Object> payload) {
         this.payload = payload;
     }
 }

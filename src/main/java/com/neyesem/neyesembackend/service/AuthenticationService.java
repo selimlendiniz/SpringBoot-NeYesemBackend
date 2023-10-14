@@ -9,18 +9,20 @@ import com.neyesem.neyesembackend.dto.Role;
 import com.neyesem.neyesembackend.entity.Token;
 import com.neyesem.neyesembackend.entity.TokenType;
 import com.neyesem.neyesembackend.entity.User;
-import com.neyesem.neyesembackend.exception.UserAlreadyExistsException;
+import com.neyesem.neyesembackend.exception.*;
 import com.neyesem.neyesembackend.repository.ITokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.RefreshFailedException;
 import java.io.IOException;
 
 @Service
@@ -72,19 +74,21 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
-        userService.findByUsername(request.username())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + request.username()));
+         User user = userService.findByUsername(request.username())
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + request.username()));
 
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.username(),
-                        request.password()
-                )
-        );
 
-        var user = userService.findByUsername(request.username())
-                .orElseThrow();
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.username(),
+                            request.password()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            throw new InvalidPasswordException("Invalid password for user: " + request.username());
+        }
 
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
@@ -116,14 +120,14 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, RefreshTokenMissing, RefreshFailedException, TokenException {
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String username;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
+            throw new RefreshTokenMissing("Refresh token is missing");
         }
 
         refreshToken = authHeader.substring(7);
@@ -145,8 +149,12 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
 
 
+            }else {
+                throw new TokenException("Refresh token is not valid");
             }
 
+        }else {
+            throw new TokenException("Refresh token is not valid (Username is null)");
         }
 
     }

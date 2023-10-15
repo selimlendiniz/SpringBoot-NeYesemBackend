@@ -28,12 +28,10 @@ import java.io.IOException;
 @Service
 public class AuthenticationService {
 
+
     private final UserService userService;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtService jwtService;
-
     private final AuthenticationManager authenticationManager;
     private final ITokenRepository tokenRepository;
 
@@ -63,9 +61,9 @@ public class AuthenticationService {
 
         );
 
-        User savedUser = userService.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        userService.save(user);
+        String jwtToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(user, jwtToken);
 
 

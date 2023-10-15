@@ -52,11 +52,6 @@ public class RestaurantController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/restaurant/{id}")
-    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long id, @RequestBody Restaurant updateRestaurant){
-        return new ResponseEntity<>(restaurantService.updateRestaurantById(id,updateRestaurant),HttpStatus.OK);
-
-    }
 
 
 

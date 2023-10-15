@@ -95,6 +95,16 @@ public class Restaurant {
         this.address = address;
     }
 
+    public Restaurant(Long id, String name, String googleMapsLink, Date createDate, String address, List<Comment> comments, Set<Food> foods) {
+        this.id = id;
+        this.name = name;
+        this.googleMapsLink = googleMapsLink;
+        this.createDate = createDate;
+        this.address = address;
+        this.comments = comments;
+        this.foods = foods;
+    }
+
     public Long getId() {
         return id;
     }
@@ -152,19 +162,6 @@ public class Restaurant {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Restaurant that = (Restaurant) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(googleMapsLink, that.googleMapsLink) && Objects.equals(createDate, that.createDate) && Objects.equals(address, that.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, googleMapsLink, createDate, address);
-    }
-
-    @Override
     public String toString() {
         return "Restaurant{" +
                 "id=" + id +
@@ -172,6 +169,21 @@ public class Restaurant {
                 ", googleMapsLink='" + googleMapsLink + '\'' +
                 ", createDate=" + createDate +
                 ", address='" + address + '\'' +
+                ", comments=" + comments +
+                ", foods=" + foods +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Restaurant that = (Restaurant) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(googleMapsLink, that.googleMapsLink) && Objects.equals(createDate, that.createDate) && Objects.equals(address, that.address) && Objects.equals(comments, that.comments) && Objects.equals(foods, that.foods);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, googleMapsLink, createDate, address, comments, foods);
     }
 }

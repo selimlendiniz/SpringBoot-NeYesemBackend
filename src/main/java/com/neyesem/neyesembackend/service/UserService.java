@@ -43,7 +43,7 @@ public class UserService {
 
     public UserProfileResponse getUserProfile(Long id) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User" + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
 
         return new UserProfileResponse(
                 user.getId(),

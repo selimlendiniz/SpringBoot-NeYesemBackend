@@ -4,10 +4,7 @@ package com.neyesem.neyesembackend.entity;
 import com.neyesem.neyesembackend.dto.RestaurantFoodResponse;
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "foods")
@@ -35,4 +32,31 @@ public class Food {
         );
     }
 
+    public Food(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Food() {
+    }
+
+    public Food(Long id, String name, Date createDate, Set<Restaurant> restaurants) {
+        this.id = id;
+        this.name = name;
+        this.createDate = createDate;
+        this.restaurants = restaurants;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Food food = (Food) o;
+        return Objects.equals(id, food.id) && Objects.equals(name, food.name) && Objects.equals(createDate, food.createDate) && Objects.equals(restaurants, food.restaurants);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, createDate, restaurants);
+    }
 }

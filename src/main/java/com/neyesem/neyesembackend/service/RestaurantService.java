@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class RestaurantService {
 
+
     private final IRestaurantRepository restaurantRepository;
 
     public RestaurantService(IRestaurantRepository restaurantRepository) {
@@ -40,8 +41,8 @@ public class RestaurantService {
     public Restaurant findRestaurantById(Long id) {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
 
-        if (!restaurant.isPresent()) {
-            throw new RestaurantNotFoundException("Restaurant" + id);
+        if (restaurant.isEmpty()) {
+            throw new RestaurantNotFoundException("Restaurant not found with id: " + id);
         }
 
         return restaurant.get();
@@ -50,16 +51,6 @@ public class RestaurantService {
     public Restaurant saveRestaurant(Restaurant newRestaurant) {
         newRestaurant.setCreateDate(new Date(System.currentTimeMillis()));
         return restaurantRepository.save(newRestaurant);
-    }
-
-
-    public Restaurant updateRestaurantById(Long id, Restaurant updateRestaurant) {
-
-        Restaurant oldRestaurant = findRestaurantById(id);
-        oldRestaurant.setAddress(updateRestaurant.getAddress());
-        oldRestaurant.setGoogleMapsLink(updateRestaurant.getGoogleMapsLink());
-        return restaurantRepository.save(oldRestaurant);
-
     }
 
     public RestaurantProfileResponse getRestaurantProfile(Long id) {

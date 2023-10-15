@@ -3,6 +3,8 @@ package com.neyesem.neyesembackend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "tokens")
 public class Token {
@@ -82,5 +84,18 @@ public class Token {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Token token1 = (Token) o;
+        return Objects.equals(id, token1.id) && Objects.equals(token, token1.token) && tokenType == token1.tokenType && Objects.equals(revoked, token1.revoked) && Objects.equals(expired, token1.expired) && Objects.equals(user, token1.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, token, tokenType, revoked, expired, user);
     }
 }

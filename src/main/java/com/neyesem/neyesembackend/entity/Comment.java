@@ -7,6 +7,8 @@ import com.neyesem.neyesembackend.dto.RestaurantCommentResponse;
 import com.neyesem.neyesembackend.dto.UserCommentResponse;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -24,6 +26,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
 
     public CommentResponse entityToDto(){
 
@@ -99,5 +102,18 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment1 = (Comment) o;
+        return Objects.equals(id, comment1.id) && Objects.equals(comment, comment1.comment) && Objects.equals(restaurant, comment1.restaurant) && Objects.equals(user, comment1.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, comment, restaurant, user);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -129,6 +130,18 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
+    public User(Long id, String username, String email, String password, Role role, String firstName, String lastName, List<Comment> comments, List<Token> tokens) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.comments = comments;
+        this.tokens = tokens;
+    }
+
     public List<Token> getTokens() {
         return tokens;
     }
@@ -192,5 +205,18 @@ public class User implements UserDetails {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && role == user.role && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(comments, user.comments) && Objects.equals(tokens, user.tokens);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, password, role, firstName, lastName, comments, tokens);
     }
 }
